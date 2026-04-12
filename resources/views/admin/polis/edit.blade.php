@@ -1,80 +1,63 @@
-<x-layout.app title="Edit Poli">
+<x-layouts.app title="Edit Poli">
+    <div class="card-modern">
+        <div class="card-header-modern">
+            <div class="card-title-modern">
+                <i class="fas fa-edit" style="color: #f59e0b;"></i> 
+                <span>Edit Unit Poli</span>
+            </div>
+            <a href="{{ route('admin.polis.index') }}" class="btn-secondary-modern">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
+        </div>
 
-    {{-- Header --}}
-    <div class="flex items-center gap-3 mb-6">
-        <a href="{{ route('polis.index') }}" class="inline-flex items-center justify-center w-9 h-9 
-                  rounded-lg bg-slate-100 text-slate-500 
-                  hover:bg-slate-200 transition">
-            <i class="fas fa-arrow-left text-sm"></i>
-        </a>
-
-        <h2 class="text-2xl font-bold text-slate-800">
-            Edit Poli
-        </h2>
-    </div>
-
-    {{-- Card --}}
-    <div class="card bg-base-100 shadow-md rounded-2xl border border-slate-200">
-
-        <div class="card-body p-8">
-
-            <form action="{{ route('polis.update', $poli->id) }}" method="POST">
+        <div class="card-body-modern" style="padding: 30px; max-width: 800px;">
+            {{-- Pastikan route action menggunakan admin.polis.update --}}
+            <form action="{{ route('admin.polis.update', $poli->id) }}" method="POST">
                 @csrf
                 @method('PUT')
-
-                {{-- Nama Poli --}}
-                <div class="mb-6">
-                    <label class="block text-sm font-semibold text-slate-700 mb-1">
-                        Nama Poli <span class="text-red-500">*</span>
+                
+                <div class="form-group-modern" style="margin-bottom: 24px;">
+                    <label for="nama_poli" class="label-modern" style="display: block; font-weight: 600; margin-bottom: 10px; color: #334155;">
+                        Nama Poli <span style="color: #ef4444;">*</span>
                     </label>
-
-                    <input type="text" name="nama_poli" value="{{ old('nama_poli', $poli->nama_poli) }}"
-                        placeholder="Masukkan nama poli..."
-                        class="w-full px-4 py-2 rounded-lg border-2 border-slate-300 
-                               focus:border-primary focus:outline-none
-                               @error('nama_poli') border-red-500 @enderror"
-                        required>
-
+                    <input type="text" 
+                           name="nama_poli" 
+                           id="nama_poli" 
+                           class="input-modern" 
+                           style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem;"
+                           placeholder="Masukkan nama poli" 
+                           value="{{ old('nama_poli', $poli->nama_poli) }}" 
+                           required>
                     @error('nama_poli')
-                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        <p style="color: #ef4444; font-size: 0.8rem; margin-top: 6px;">{{ $message }}</p>
                     @enderror
                 </div>
 
-                {{-- Keterangan --}}
-                <div class="mb-8">
-                    <label class="block text-sm font-semibold text-slate-700 mb-1">
-                        Keterangan <span class="text-red-500">*</span>
+                <div class="form-group-modern" style="margin-bottom: 30px;">
+                    <label for="keterangan" class="label-modern" style="display: block; font-weight: 600; margin-bottom: 10px; color: #334155;">
+                        Keterangan <span style="color: #ef4444;">*</span>
                     </label>
-
-                    <textarea name="keterangan" rows="4" placeholder="Masukkan keterangan poli..."
-                        class="w-full px-4 py-2 rounded-lg border-2 border-slate-300 
-                               focus:border-primary focus:outline-none
-                               @error('keterangan') border-red-500 @enderror"
-                        required>{{ old('keterangan', $poli->keterangan) }}</textarea>
-
+                    <textarea name="keterangan" 
+                              id="keterangan" 
+                              rows="5" 
+                              class="input-modern" 
+                              style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; resize: none;"
+                              placeholder="Tuliskan deskripsi unit poli..." 
+                              required>{{ old('keterangan', $poli->keterangan) }}</textarea>
                     @error('keterangan')
-                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        <p style="color: #ef4444; font-size: 0.8rem; margin-top: 6px;">{{ $message }}</p>
                     @enderror
                 </div>
 
-                {{-- Button --}}
-                <div class="flex gap-3">
-                    <button type="submit"
-                        class="px-6 py-2.5 rounded-lg bg-primary hover:bg-primary/90 
-                               text-white font-semibold text-sm transition">
-                        <i class="fas fa-save mr-1"></i> Simpan
+                <div style="display: flex; align-items: center; gap: 15px; padding-top: 20px; border-top: 1px solid #f1f5f9;">
+                    <button type="submit" class="btn-primary-modern" style="padding: 12px 28px; font-size: 0.9rem; background-color: #f59e0b;">
+                        <i class="fas fa-sync-alt"></i> Perbarui Data
                     </button>
-
-                    <a href="{{ route('polis.index') }}"
-                        class="px-6 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 
-                               text-slate-600 font-semibold text-sm transition">
+                    <a href="{{ route('admin.polis.index') }}" class="btn-secondary-modern" style="padding: 12px 28px; font-size: 0.9rem; background: #f8fafc; color: #64748b;">
                         Batal
                     </a>
                 </div>
-
             </form>
-
         </div>
     </div>
-
-</x-layout.app>
+</x-layouts.app>

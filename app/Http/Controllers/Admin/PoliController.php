@@ -1,5 +1,9 @@
 <?php
+// File: app/Http/Controllers/Admin/PoliController.php
+// Controller untuk manajemen poli dengan desain baru
+
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\Poli;
 use Illuminate\Http\Request;
@@ -8,48 +12,46 @@ class PoliController extends Controller
 {
     public function index()
     {
-    $polis = Poli::all();
-    return view('admin.polis.index', compact('polis'));
+        $polis = Poli::all();
+        return view('admin.polis.index', compact('polis'));
     }
 
     public function create()
     {
-    return view('admin.polis.create');
+        return view('admin.polis.create');
     }
 
     public function store(Request $request)
     {
-    $validated = $request->validate([
-    'nama_poli' => 'required',
-    'keterangan' => 'nullable'
-    ]);
+        $validated = $request->validate([
+            'nama_poli' => 'required|string|max:100',
+            'keterangan' => 'required|string'
+        ]);
 
-    Poli::create($validated);
-    return redirect()->route('polis.index')->with('success', 'Poli berhasil di tambahkan')->with('type', 'success');
-    }
+        Poli::create($validated);
+        return redirect()->route('admin.polis.index')->with('success', 'Data Poli berhasil ditambahkan!');    }
 
     public function edit($id)
     {
-    $polis = Poli::findOrFail($id);
-    return view('admin.polis.edit', compact('poli'));
+        $poli = Poli::findOrFail($id);
+        return view('admin.polis.edit', compact('poli'));
     }
 
     public function update(Request $request, $id)
     {
-    $validated = $request->validate([
-    'nama_poli' => 'required',
-    'keterangan' => 'nullable'
-    ]);
+        $validated = $request->validate([
+            'nama_poli' => 'required|string|max:100',
+            'keterangan' => 'required|string'
+        ]);
 
-    $polis = Poli::findOrFail($id);
-    $polis->update($validated);
-    return redirect()->route('polis.index')->with('success', 'Polis berhasil di update');
-    }
+        $poli = Poli::findOrFail($id);
+        $poli->update($validated);
+        return redirect()->route('admin.polis.index')->with('success', 'Data Poli berhasil diperbarui!');    }
 
     public function destroy($id)
     {
-    $polis = Poli::findOrFail($id);
-    $polis->delete();
-    return redirect()->route('polis.index')->with('success', 'Polis Berhasil di hapus !');
-    }
+        $poli = Poli::findOrFail($id);
+        $poli->delete();
+return redirect()->route('admin.polis.index')->with('success', 'Data Poli berhasil dihapus!');    }
 }
+
