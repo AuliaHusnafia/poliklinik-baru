@@ -1,0 +1,90 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
+class PasienController extends Controller
+{
+    public function index()
+    {
+        // Perbaikan: Filter user dengan role 'pasien' saja
+        $pasiens = User::where('role', 'pasien')->get();
+        
+        // Pastikan folder view adalah 'admin.pasien.index' atau 'pasien.index' sesuai struktur folder kamu
+        return view('pasien.index', compact('pasiens'));
+    }
+
+    public function create()
+    {
+        return view('pasien.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama'     => 'required|string|max:255',
+            'alamat'   => 'required|string',
+            'no_ktp'   => 'required|string|max:16|unique:users,no_ktp',
+            'no_hp'    => 'required|string|max:15',
+            'email'    => 'required|string|email|unique:users,email',
+            'password' => 'required|string|min:6',
+        ]);
+
+        User::create([
+            'nama'     => $request->nama,
+            'alamat'   => $request->alamat,
+            'no_ktp'   => $request->no_ktp,
+            'no_hp'    => $request->no_hp,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+            'role'     => 'pasien', // Otomatis set sebagai pasien
+        ]);
+
+        // Perbaikan: Gunakan route name yang lengkap (admin.pasien.index)
+        return redirect()->route('admin.pasien.index')->with('message', 'Data Pasien berhasil di Tambah')->with('type', 'success');
+    }
+
+    public function edit(User $pasien)
+    {
+        return view('pasien.edit', compact('pasien'));
+    }
+
+    public function update(Request $request, User $pasien)
+    {
+        $request->validate([
+            'nama'     => 'required|string|max:255',
+            'alamat'   => 'required|string',
+            'no_ktp'   => 'required|string|max:16|unique:users,no_ktp,' . $pasien->id,
+            'no_hp'    => 'required|string|max:15',
+            'email'    => 'required|string|email|unique:users,email,' . $pasien->id,
+            'password' => 'nullable|string|min:6', // Password boleh kosong saat update
+        ]);
+
+        $updateData = [
+            'nama'   => $request->nama,
+            'alamat' => $request->alamat,
+            'no_ktp' => $request->no_ktp,
+            'no_hp'  => $request->no_hp,
+            'email'  => $request->email,
+        ];
+
+        if ($request->filled('password')) {
+            $updateData['password'] = Hash::make($request->password);
+        }
+
+        $pasien->update($updateData);
+
+        return redirect()->route('admin.pasien.index')->with('message', 'Data Pasien Berhasil di Update')->with('type', 'success');
+    }
+
+    public function destroy(User $pasien)
+    {
+        $pasien->delete();
+
+        return redirect()->route('admin.pasien.index')->with('message', 'Data Pasien Berhasil Di Hapus')->with('type', 'success');
+    }
+}
