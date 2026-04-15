@@ -1,61 +1,65 @@
-<header class="bg-base-100 border-b border-base-300 h-16 flex items-center px-6 gap-4 sticky top-0 z-30 shadow-sm">
+<div style="margin-bottom: 24px;">
 
-    {{-- Mobile Hamburger --}}
-    <button onclick="toggleSidebar()" class="btn btn-square btn-ghost lg:hidden">
-        <i data-lucide="menu" class="w-5 h-5"></i>
-    </button>
-
-    {{-- Breadcrumb --}}
-    <div class="flex-1">
-        <div class="flex items-center gap-2 text-sm">
-            <span class="text-base-content/50">Poliklinik</span>
-            <i data-lucide="chevron-right" class="w-4 h-4 text-base-content/30"></i>
-            <span class="font-semibold text-base-content">
-                {{ $title ?? 'Dashboard' }}
-            </span>
+    {{-- BARIS ATAS: BREADCRUMB + USER --}}
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        
+        {{-- BREADCRUMB --}}
+        @if(isset($breadcrumbs))
+        <div style="font-size: 0.85rem; display:flex; align-items:center; gap:6px; color:#64748b;">
+            @foreach($breadcrumbs as $item)
+                @if(!$loop->last)
+                    <span>{{ $item }}</span>
+                    <i class="fas fa-chevron-right" style="font-size:10px;"></i>
+                @else
+                    <span style="color:#1e293b; font-weight:600;">{{ $item }}</span>
+                @endif
+            @endforeach
         </div>
+        @endif
+
+        {{-- USER INFO --}}
+        <div style="display:flex; align-items:center; gap:10px;">
+            
+            <div style="text-align:right;">
+                <div style="font-size: 0.85rem; font-weight:600; color:#1e293b;">
+                    {{ auth()->user()->name ?? 'Admin' }}
+                </div>
+                <div style="font-size: 0.7rem; color:#64748b;">
+                    Administrator
+                </div>
+            </div>
+
+            <div style="
+                width:40px;
+                height:40px;
+                background:#1e3a8a;
+                color:white;
+                border-radius:50%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-weight:bold;
+            ">
+                {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
+            </div>
+
+        </div>
+
     </div>
 
-    {{-- Fullscreen --}}
-    <button onclick="toggleFullscreen()" class="btn btn-square btn-ghost">
-        <i id="fsIcon" class="fas fa-expand w-5 h-5"></i>
-    </button>
+    {{-- BARIS BAWAH: TITLE + BUTTON --}}
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        
+        {{-- TITLE --}}
+        <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin: 0;">
+            {{ $title ?? 'Dashboard' }}
+        </h2>
 
-    {{-- User Info --}}
-    <div class="flex items-center gap-3">
-
-        <div class="text-right hidden sm:block">
-            <div class="text-sm font-semibold leading-tight">
-                {{ auth()->user()->name ?? 'Pengguna' }}
-            </div>
-            <div class="text-xs text-base-content/50 leading-tight">
-                {{ auth()->user()->role ?? 'Admin Sistem' }}
-            </div>
+        {{-- BUTTON SLOT --}}
+        <div>
+            {{ $slot }}
         </div>
 
-        <div class="avatar">
-            <div class="w-10 h-10 rounded-full bg-primary text-primary-content flex items-center justify-center">
-                <span class="text-sm font-semibold leading-none">
-                    {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
-                </span>
-            </div>
-        </div>
     </div>
 
-</header>
-
-<script>
-    function toggleFullscreen() {
-    const icon = document.getElementById('fsIcon');
-
-    if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-        icon.classList.remove('fa-expand');
-        icon.classList.add('fa-compress');
-    } else {
-        document.exitFullscreen();
-        icon.classList.remove('fa-compress');
-        icon.classList.add('fa-expand');
-    }
-}
-</script>
+</div>

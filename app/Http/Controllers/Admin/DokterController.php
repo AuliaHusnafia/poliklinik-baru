@@ -14,12 +14,12 @@ class DokterController extends Controller
     {
         // Mengambil user dengan role dokter beserta data poli terkait
         $dokters = User::where('role', 'dokter')->with('poli')->get();
-        return view('dokter.index', compact('dokters'));    }
+        return view('admin.dokter.index', compact('dokters'));    }
 
     public function create()
     {
         $polis = Poli::all();
-        return view('dokter.create', compact('polis'));    }
+        return view('admin.dokter.create', compact('polis'));    }
 
     public function store(Request $request)
     {

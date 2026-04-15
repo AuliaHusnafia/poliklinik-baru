@@ -18,7 +18,7 @@ class PoliController extends Controller
 
     public function create()
     {
-        return view('admin.polis.create');
+        return view('admin.poli.create');
     }
 
     public function store(Request $request)
@@ -34,7 +34,7 @@ class PoliController extends Controller
     public function edit($id)
     {
         $poli = Poli::findOrFail($id);
-        return view('admin.polis.edit', compact('poli'));
+        return view('admin.poli.edit', compact('poli'));
     }
 
     public function update(Request $request, $id)
@@ -52,6 +52,6 @@ class PoliController extends Controller
     {
         $poli = Poli::findOrFail($id);
         $poli->delete();
-return redirect()->route('admin.polis.index')->with('success', 'Data Poli berhasil dihapus!');    }
+    return redirect()->route('admin.polis.index')->with('success', 'Data Poli berhasil dihapus!');    }
 }
 

@@ -1,22 +1,22 @@
-<x-layouts.app title="Data Poli">
+<x-layouts.app title="Data Obat">
 
     <x-partials.header 
-        title="Data Poli" 
-        :breadcrumbs="['Poliklinik', 'Admin', 'Data Poli']"
+        title="Data Obat" 
+        :breadcrumbs="['Poliklinik', 'Admin', 'Data Obat']"
     >
-        <a href="{{ route('admin.poli.create') }}" class="btn-primary">
-            <i class="fas fa-plus"></i> Tambah Poli
+        <a href="{{ route('admin.obat.create') }}" class="btn-primary">
+            <i class="fas fa-plus"></i> Tambah Obat
         </a>
     </x-partials.header>
 
     {{-- HEADER
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
         <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin: 0;">
-            Data Poli
+            Data Obat
         </h2>
 
-        <a href="{{ route('admin.poli.create') }}" class="btn-primary">
-            <i class="fas fa-plus"></i> Tambah Poli
+        <a href="{{ route('admin.obat.create') }}" class="btn-primary">
+            <i class="fas fa-plus"></i> Tambah Obat
         </a>
     </div> --}}
 
@@ -24,43 +24,50 @@
     <div class="card">
         <div style="overflow-x: auto;">
             <table>
-                
+
                 {{-- HEAD --}}
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama Poli</th>
-                        <th>Keterangan</th>
+                        <th>Nama Obat</th>
+                        <th>Kemasan</th>
+                        <th>Harga</th>
                         <th style="text-align: center;">Aksi</th>
                     </tr>
                 </thead>
 
                 {{-- BODY --}}
                 <tbody>
-                    @forelse($polis as $poli)
+                    @forelse($obats as $obat)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
 
                         <td style="font-weight: 600; color: #1e293b;">
-                            {{ $poli->nama_poli }}
+                            {{ $obat->nama_obat }}
+                        </td>
+
+                        <td>
+                            <span class="badge-poli">
+                                {{ $obat->kemasan }}
+                            </span>
                         </td>
 
                         <td style="color: #64748b;">
-                            {{ \Illuminate\Support\Str::limit($poli->keterangan, 50) }}
+                            Rp {{ number_format($obat->harga, 0, ',', '.') }}
                         </td>
 
                         <td>
                             <div style="display: flex; justify-content: center; gap: 8px;">
                                 
-                                <a href="{{ route('admin.poli.edit', $poli->id) }}" class="btn-action-edit">
+                                <a href="{{ route('admin.obat.edit', $obat->id) }}" class="btn-action-edit">
                                     <i class="fas fa-pen"></i> Edit
                                 </a>
 
-                                <form action="{{ route('admin.poli.destroy', $poli->id) }}" method="POST">
+                                <form action="{{ route('admin.obat.destroy', $obat->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
 
-                                    <button type="submit" onclick="return confirm('Yakin ingin menghapus poli ini?')" class="btn-action-delete">
+                                    <button type="submit" onclick="return confirm('Yakin ingin menghapus obat ini?')" class="btn-action-delete">
                                         <i class="fas fa-trash"></i> Hapus
                                     </button>
                                 </form>
@@ -71,9 +78,9 @@
 
                     @empty
                     <tr>
-                        <td colspan="4" style="text-align: center; padding: 40px; color: #94a3b8;">
-                            <i class="fas fa-hospital" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
-                            Belum ada data poli
+                        <td colspan="5" style="text-align: center; padding: 40px; color: #94a3b8;">
+                            <i class="fas fa-pills" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
+                            Belum ada data obat
                         </td>
                     </tr>
                     @endforelse

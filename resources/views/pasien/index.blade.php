@@ -1,14 +1,22 @@
 <x-layouts.app title="Data Pasien">
 
-    {{-- Header --}}
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
-        <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin: 0;">Data Pasien</h2>
-
-        {{-- Perbaikan: Tambahkan 'admin.' pada route --}}
+    <x-partials.header 
+        title="Data Pasien" 
+        :breadcrumbs="['Poliklinik', 'Admin', 'Data Pasien']"
+    >
         <a href="{{ route('admin.pasien.create') }}" class="btn-primary">
             <i class="fas fa-plus"></i> Tambah Pasien
         </a>
-    </div>
+    </x-partials.header>
+
+    {{-- Header
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+        <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin: 0;">Data Pasien</h2>
+
+        <a href="{{ route('admin.pasien.create') }}" class="btn-primary">
+            <i class="fas fa-plus"></i> Tambah Pasien
+        </a>
+    </div> --}}
 
     {{-- Card --}}
     <div class="card">
