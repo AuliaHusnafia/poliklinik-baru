@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DokterController;
 use App\Http\Controllers\Admin\PasienController; 
 use App\Http\Controllers\Admin\ObatController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Dokter\JadwalPeriksaController;
 use Illuminate\Support\Facades\Route;
 
 // --- GUEST ROUTES ---
@@ -38,16 +39,31 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('obat', ObatController::class);
 });
 
-// --- DOKTER ROUTES ---
-Route::middleware(['auth', 'role:dokter'])->prefix('dokter')->name('dokter.')->group(function () {
-    Route::get('/dashboard', function () { 
-        return view('dokter.dashboard'); 
-    })->name('dashboard');
+Route::middleware(['auth', 'role:dokter'])
+    ->prefix('dokter')
+    ->name('dokter.')
+    ->group(function () {
+
+        Route::get('/dashboard', function () {
+            return view('admin.dokter.dashboard');
+        })->name('dashboard');
+
+        Route::resource('jadwal-periksa', JadwalPeriksaController::class);
 });
 
 // --- PASIEN ROUTES ---
-Route::middleware(['auth', 'role:pasien'])->prefix('pasien')->name('pasien.')->group(function () {
+Route::middleware(['auth', 'role:pasien'])
+    ->prefix('pasien')
+    ->name('pasien.')
+    ->group(function () {
+
     Route::get('/dashboard', function () { 
         return view('pasien.dashboard'); 
     })->name('dashboard');
+
+    Route::get('/daftar-poli', [App\Http\Controllers\Pasien\PoliController::class, 'get'])
+        ->name('daftar-poli');
+
+    Route::post('/daftar-poli', [App\Http\Controllers\Pasien\PoliController::class, 'submit'])
+        ->name('daftar-poli.submit');
 });

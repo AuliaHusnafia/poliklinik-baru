@@ -39,27 +39,41 @@ class AuthController extends Controller
     }
 
     public function register(Request $request)
-    {
-        $request->validate([
-            'nama' => ['required', 'string', 'max:255'],
-            'alamat' => ['required', 'string', 'max:255'],
-            'no_ktp' => ['required', 'string', 'max:30'],
-            'no_hp' => ['required', 'string', 'max:20'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'confirmed'],
-        ]);
+{
+    $request->validate([
+        'nama'     => 'required|string|max:255',
+        'alamat'   => 'required|string',
+        'no_ktp'   => 'required|numeric|unique:users,no_ktp',
+        'no_hp'    => 'required|numeric',
+        'email'    => 'required|email|unique:users,email',
+        'password' => 'required|min:6|confirmed'
+    ]);
 
-        User::create([
-            'nama' => $request->nama,
-            'alamat' => $request->alamat,
-            'no_ktp' => $request->no_ktp,
-            'no_hp' => $request->no_hp,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'pasien',
-        ]);
+    // Ambil pasien terakhir
+    $lastPasien = User::where('role', 'pasien')
+                    ->orderBy('id', 'desc')
+                    ->first();
 
-        return redirect()->route('login');
+    // Tentukan ID berikutnya
+    $lastId = $lastPasien ? $lastPasien->id + 1 : 1;
+
+    // Format no_rm (YYMM-XXX)
+    $no_rm = date('ym') . '-' . str_pad($lastId, 3, '0', STR_PAD_LEFT);
+
+    // Simpan data
+    User::create([
+        'nama'     => $request->nama,
+        'alamat'   => $request->alamat,
+        'no_ktp'   => $request->no_ktp,
+        'no_hp'    => $request->no_hp,
+        'no_rm'    => $no_rm,
+        'role'     => 'pasien',
+        'email'    => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
+
+    return redirect()->route('login')
+        ->with('success', 'Registrasi berhasil! Silakan login.');
     }
 
     public function logout()

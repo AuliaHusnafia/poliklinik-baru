@@ -15,12 +15,12 @@ class PasienController extends Controller
         $pasiens = User::where('role', 'pasien')->get();
         
         // Pastikan folder view adalah 'admin.pasien.index' atau 'pasien.index' sesuai struktur folder kamu
-        return view('pasien.index', compact('pasiens'));
+        return view('admin.pasien.index', compact('pasiens'));
     }
 
     public function create()
     {
-        return view('pasien.create');
+        return view('admin.pasien.create');
     }
 
     public function store(Request $request)

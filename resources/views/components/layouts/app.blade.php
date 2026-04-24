@@ -5,117 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poliklinik</title>
     
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #f1f5f9; }
-
-        .app-wrapper { display: flex; min-height: 100vh; }
-
-        /* SIDEBAR */
-        .sidebar-modern {
-            width: 280px; 
-            background-color: #1e3a8a; 
-            color: white;
-            position: fixed; 
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column;
-        }
-
-        .brand-area { padding: 2rem; text-align: center; }
-        .logo-placeholder {
-            width: 55px; height: 55px; background: white; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: #1e3a8a; font-weight: bold;
-        }
-
-        .nav-modern { padding: 1rem; }
-        .nav-header { font-size: 0.7rem; color: rgba(255,255,255,0.5); padding: 1rem; }
-
-        .nav-link-modern {
-            display: flex; align-items: center; gap: 10px;
-            padding: 10px 15px; border-radius: 10px;
-            color: rgba(255,255,255,0.7); text-decoration: none;
-            transition: 0.2s;
-        }
-
-        .nav-link-modern:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .nav-link-modern.active {
-            background: rgba(255,255,255,0.2);
-            color: white;
-        }
-
-        .logout-area { margin-top: auto; padding: 1rem; }
-
-        .btn-logout {
-            width: 100%; padding: 10px;
-            background: red; color: white;
-            border: none; border-radius: 10px;
-            cursor: pointer;
-        }
-
-        /* MAIN */
-        .main-content {
-            margin-left: 280px;
-            padding: 2rem;
-            width: 100%;
-        }
-
-        .card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
-        }
-
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 12px; border-bottom: 1px solid #eee; }
-
-        .btn-primary {
-            background: #4338ca;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 8px;
-            text-decoration: none;
-        }
-
-        .btn-action-edit {
-            background: orange;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        .btn-action-delete {
-            background: red;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-    </style>
 </head>
 
-<body>
-    <div class="app-wrapper">
+<body class="bg-slate-100 font-[Inter]">
+
+<div class="flex min-h-screen">
 
     <!-- SIDEBAR -->
     <x-partials.sidebar />
 
-    <!-- MAIN -->
-    <main class="main-content">
+    <!-- MAIN WRAPPER -->
+    <div class="flex-1 flex flex-col" style="margin-left: 260px;">
 
-        <div class="content-wrapper">
-            {{ $slot }}
-        </div>
+        <!-- TOPBAR -->
+        <header class="topbar">
+            {{-- Breadcrumb kiri --}}
+            <div class="topbar-breadcrumb">
+                <span class="breadcrumb-root">Poliklinik</span>
+                <i class="fas fa-chevron-right breadcrumb-sep"></i>
+                <span class="breadcrumb-current">{{ $title ?? 'Halaman' }}</span>
+            </div>
 
-    </main>
+            {{-- User info kanan --}}
+            <div class="topbar-user">
+                <div class="topbar-user-info">
+                    <span class="topbar-user-name">{{ auth()->user()->nama ?? 'Pengguna' }}</span>
+                    <span class="topbar-user-role">{{ auth()->user()->role ?? '' }}</span>
+                </div>
+                <div class="topbar-avatar">
+                    {{ strtoupper(substr(auth()->user()->nama ?? 'U', 0, 1)) }}
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <main class="flex-1 p-8">
+            <div class="max-w-7xl mx-auto">
+                {{ $slot }}
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="topbar-footer">
+            Copyright &copy; {{ date('Y') }} &mdash; All rights reserved by
+            <a href="#" style="color: #2d4499; font-weight: 600; text-decoration: none;">Poliklinik</a>
+        </footer>
+
+    </div>
 
 </div>
+
+@stack('scripts')
+
 </body>
 </html>
