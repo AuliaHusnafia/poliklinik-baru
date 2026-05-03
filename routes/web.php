@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\PasienController;
 use App\Http\Controllers\Admin\ObatController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Dokter\JadwalPeriksaController;
+use App\Http\Controllers\Dokter\PeriksaPasienController;
+use App\Http\Controllers\Dokter\RiwayatPasienController;
 use Illuminate\Support\Facades\Route;
 
 // --- GUEST ROUTES ---
@@ -26,29 +28,35 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         return view('admin.dashboard');
     })->name('dashboard');
     
-    // Manajemen Poli
     Route::resource('poli', PoliController::class);
-
-    // Manajemen Dokter
     Route::resource('dokter', DokterController::class);
-
-    // Manajemen Pasien
     Route::resource('pasien', PasienController::class);
-
-    // Manajemen Obat
     Route::resource('obat', ObatController::class);
 });
 
-Route::middleware(['auth', 'role:dokter'])
-    ->prefix('dokter')
-    ->name('dokter.')
-    ->group(function () {
-
-        Route::get('/dashboard', function () {
-            return view('admin.dokter.dashboard');
-        })->name('dashboard');
-
-        Route::resource('jadwal-periksa', JadwalPeriksaController::class);
+// --- DOKTER ROUTES ---
+Route::middleware(['auth', 'role:dokter'])->prefix('dokter')->group(function () {
+ 
+    Route::get('/dashboard', function () {
+        return view('dokter.dashboard');
+    })->name('dokter.dashboard');
+ 
+    Route::resource('jadwal-periksa', JadwalPeriksaController::class)->names([
+        'index'   => 'dokter.jadwal-periksa.index',
+        'create'  => 'dokter.jadwal-periksa.create',
+        'store'   => 'dokter.jadwal-periksa.store',
+        'show'    => 'dokter.jadwal-periksa.show',
+        'edit'    => 'dokter.jadwal-periksa.edit',
+        'update'  => 'dokter.jadwal-periksa.update',
+        'destroy' => 'dokter.jadwal-periksa.destroy',
+    ]);
+ 
+    Route::get('/periksa-pasien', [PeriksaPasienController::class, 'index'])->name('periksa-pasien.index');
+    Route::post('/periksa-pasien', [PeriksaPasienController::class, 'store'])->name('periksa-pasien.store');
+    Route::get('/periksa-pasien/{id}', [PeriksaPasienController::class, 'create'])->name('periksa-pasien.create');
+ 
+    Route::get('/riwayat-pasien', [RiwayatPasienController::class, 'index'])->name('riwayat-pasien.index');
+    Route::get('/riwayat-pasien/{id}', [RiwayatPasienController::class, 'show'])->name('riwayat-pasien.show');
 });
 
 // --- PASIEN ROUTES ---

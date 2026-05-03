@@ -18,12 +18,12 @@ class JadwalPeriksaController extends Controller
                             ->orderBy('hari')
                             ->get();
 
-        return view('dokter.jadwal-periksa.index', compact('jadwalPeriksas'));    }
+        return view('components.dokter.jadwal-periksa.index', compact('jadwalPeriksas'));    }
 
     // Form tambah
     public function create()
     {
-        return view('dokter.jadwal-periksa.create');
+        return view('components.dokter.jadwal-periksa.create');
     }
 
     // Simpan data
@@ -51,7 +51,7 @@ class JadwalPeriksaController extends Controller
     {
         $jadwalPeriksa = JadwalPeriksa::findOrFail($id);
 
-        return view('dokter.jadwal-periksa.edit', compact('jadwalPeriksa'));
+        return view('components.dokter.jadwal-periksa.edit', compact('jadwalPeriksa'));
     }
 
     // Update data
