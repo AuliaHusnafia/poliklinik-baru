@@ -37,6 +37,6 @@ class RiwayatPasienController extends Controller
             ])
             ->findOrFail($id);
 
-        return view('dokter.riwayat-pasien.show', compact('periksa'));
+        return view('components.dokter.riwayat-pasien.show', compact('periksa'));
     }
 }

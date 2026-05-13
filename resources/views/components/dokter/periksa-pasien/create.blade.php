@@ -2,7 +2,7 @@
 
     {{-- Header --}}
     <div class="flex items-center gap-3 mb-6">
-        <a href="{{ route('components.dokter.periksa-pasien.index') }}" class="inline-flex items-center justify-center w-9 h-9 
+        <a href="{{ route('periksa-pasien.index') }}" class="inline-flex items-center justify-center w-9 h-9 
                   rounded-lg bg-slate-100 text-slate-500 
                   hover:bg-slate-200 transition">
             <i class="fas fa-arrow-left text-sm"></i>
@@ -16,7 +16,7 @@
     <div class="card bg-base-100 shadow-sm rounded-2xl border border-slate-200">
         <div class="card-body p-8">
 
-            <form action="{{ route('components.dokter.periksa-pasien.store') }}" method="POST">
+            <form action="{{ route('periksa-pasien.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="id_daftar_poli" value="{{ $id }}">
 
@@ -76,7 +76,7 @@
                         <i class="fas fa-save"></i>
                         Simpan
                     </button>
-                    <a href="{{ route('components.dokter.periksa-pasien.index') }}"
+                    <a href="{{ route('periksa-pasien.index') }}"
                         class="btn btn-ghost bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-lg px-6">
                         Batal
                     </a>

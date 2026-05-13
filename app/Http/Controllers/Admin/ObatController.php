@@ -3,40 +3,38 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Obat; // Pastikan ini mengarah ke model Obat
+use App\Models\Obat;
 use Illuminate\Http\Request;
 
 class ObatController extends Controller
 {
     public function index()
     {
-        // Mengambil semua data obat
         $obats = Obat::all();
         return view('admin.obat.index', compact('obats'));
     }
 
     public function create()
     {
-        // Pastikan view mengarah ke folder obat, bukan pasien
         return view('admin.obat.create');
     }
 
     public function store(Request $request)
     {
-        // Validasi data obat (sesuaikan dengan kolom di database kamu)
         $request->validate([
             'nama_obat' => 'required|string|max:255',
-            'kemasan' => 'required|string|max:255',
-            'harga' => 'required|numeric',
+            'kemasan'   => 'required|string|max:255',
+            'harga'     => 'required|numeric|min:1000', // Minimal 1000 (format ribuan)
+        ], [
+            'harga.min' => 'Nominal harga harus dalam ribuan, minimal Rp 1.000',
         ]);
 
         Obat::create([
             'nama_obat' => $request->nama_obat,
-            'kemasan' => $request->kemasan,
-            'harga' => $request->harga,
+            'kemasan'   => $request->kemasan,
+            'harga'     => $request->harga,
         ]);
 
-        // Redirect ke admin.obat.index
         return redirect()->route('admin.obat.index')
             ->with('message', 'Data Obat berhasil ditambah')
             ->with('type', 'success');
@@ -54,14 +52,16 @@ class ObatController extends Controller
 
         $request->validate([
             'nama_obat' => 'required|string|max:255',
-            'kemasan' => 'required|string|max:255',
-            'harga' => 'required|numeric',
+            'kemasan'   => 'required|string|max:255',
+            'harga'     => 'required|numeric|min:1000', // Minimal 1000 (format ribuan)
+        ], [
+            'harga.min' => 'Nominal harga harus dalam ribuan, minimal Rp 1.000',
         ]);
 
         $obat->update([
             'nama_obat' => $request->nama_obat,
-            'kemasan' => $request->kemasan,
-            'harga' => $request->harga,
+            'kemasan'   => $request->kemasan,
+            'harga'     => $request->harga,
         ]);
 
         return redirect()->route('admin.obat.index')

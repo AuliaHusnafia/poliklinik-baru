@@ -55,15 +55,12 @@
                             </td>
 
                             <td class="px-6 py-4 text-right">
-                                @if ($dp->periksas->isNotEmpty())
-                                    <span class="badge bg-green-100 text-green-700 border border-green-200 rounded-lg px-3 py-1 text-xs font-semibold">
-                                        <i class="fas fa-circle-check mr-1"></i>Sudah Diperiksa
-                                    </span>
+                                @if($dp->periksa)
+                                    <span class="badge bg-green-100 text-green-700">Sudah Diperiksa</span>
                                 @else
-                                    <a href="{{ route('dokter.periksa-pasien.create', $dp->id) }}"
-                                        class="btn btn-sm bg-amber-500 hover:bg-amber-600 text-white border-none rounded-lg px-4">
-                                        <i class="fas fa-stethoscope"></i>
-                                        Periksa
+                                    <a href="{{ route('periksa-pasien.create', $dp->id) }}" 
+                                        class="btn btn-sm btn-primary">
+                                        <i class="fas fa-stethoscope"></i> Periksa
                                     </a>
                                 @endif
                             </td>
