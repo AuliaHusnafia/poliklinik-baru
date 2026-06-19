@@ -70,17 +70,17 @@
                             <select name="id_jadwal" id="jadwalSelect" class="w-full border-2 rounded-lg p-2">
                                 <option value="">-- Pilih Jadwal --</option>
                                 @foreach ($jadwals as $jadwal)
-    @if($jadwal->dokter && $jadwal->dokter->id_poli)
+    @if($jadwal->dokter && $jadwal->dokter->user && $jadwal->dokter->user->id_poli)
         <option
             value="{{ $jadwal->id }}"
-            data-poli="{{ $jadwal->dokter->id_poli }}"
+            data-poli="{{ $jadwal->dokter->user->id_poli }}"
             style="display:none"
             disabled
             {{ old('id_jadwal') == $jadwal->id ? 'selected' : '' }}>
             {{ $jadwal->hari }} |
             {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} -
             {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i') }} |
-            Dr. {{ $jadwal->dokter->nama }}
+            Dr. {{ $jadwal->dokter->user->nama ?? $jadwal->dokter->nama }}
         </option>
     @endif
 @endforeach
