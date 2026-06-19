@@ -15,17 +15,23 @@
     </div>
     @endif
 
+    @if (session('error'))
+    <div class="alert alert-danger mb-4 rounded-xl shadow-sm" role="alert">
+        <i class="fas fa-circle-xmark"></i>
+        <span>{{ session('error') }}</span>
+    </div>
+    @endif
+
     {{-- Card --}}
     <div class="card bg-base-100 shadow-md rounded-2 border">
         <div class="card-body p-0">
-
             <div class="overflow-x-auto">
                 <table class="table table-zebra w-full">
 
                     {{-- Head --}}
                     <thead class="bg-slate-100 text-slate-500 text-xs uppercase tracking-wider">
                         <tr>
-                            <th class="px-6 py-4">ID</th>
+                            <th class="px-6 py-4">No</th>
                             <th class="px-6 py-4">Pasien</th>
                             <th class="px-6 py-4">Keluhan</th>
                             <th class="px-6 py-4">No Antrian</th>
@@ -35,7 +41,7 @@
 
                     {{-- Body --}}
                     <tbody>
-                        @forelse ($daftarPasien as $dp)
+                        @forelse ($daftarPoli as $dp)
                         <tr class="hover:bg-slate-50 transition">
 
                             <td class="px-6 py-4 text-slate-500">
@@ -43,22 +49,23 @@
                             </td>
 
                             <td class="px-6 py-4 font-semibold text-slate-800">
-                                {{ $dp->pasien->nama }}
+                                {{ $dp->pasien->nama ?? '-' }}
                             </td>
 
                             <td class="px-6 py-4 text-slate-500">
-                                {{ $dp->keluhan }}
+                                {{ $dp->keluhan ?? '-' }}
                             </td>
 
                             <td class="px-6 py-4 text-slate-500">
-                                {{ $dp->no_antrian }}
+                                {{ $dp->no_antrian ?? '-' }}
                             </td>
 
                             <td class="px-6 py-4 text-right">
                                 @if($dp->periksa)
                                     <span class="badge bg-green-100 text-green-700">Sudah Diperiksa</span>
                                 @else
-                                    <a href="{{ route('periksa-pasien.create', $dp->id) }}" 
+                                    {{-- DIPERBAIKI: nama route yang benar --}}
+                                    <a href="{{ route('dokter.periksa-pasien.create', $dp->id) }}"
                                         class="btn btn-sm btn-primary">
                                         <i class="fas fa-stethoscope"></i> Periksa
                                     </a>
@@ -71,7 +78,7 @@
                             <td colspan="5" class="text-center py-14 text-slate-400">
                                 <div class="flex flex-col items-center justify-center gap-2">
                                     <i class="fas fa-inbox text-3xl"></i>
-                                    <span>Tidak ada data pasien periksa</span>
+                                    <span>Tidak ada data pasien yang menunggu periksa</span>
                                 </div>
                             </td>
                         </tr>
@@ -80,19 +87,17 @@
 
                 </table>
             </div>
-
         </div>
     </div>
 
     <script>
         setTimeout(() => {
-            const alert = document.querySelector('.alert');
-            if (alert) {
-                alert.classList.remove('show');
-                alert.classList.add('fade');
-                setTimeout(() => alert.remove(), 200);
-            }
-        }, 2000);
+            document.querySelectorAll('.alert').forEach(el => {
+                el.classList.remove('show');
+                el.classList.add('fade');
+                setTimeout(() => el.remove(), 200);
+            });
+        }, 3000);
     </script>
 
 </x-layouts.app>

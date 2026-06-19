@@ -28,7 +28,7 @@
                     <select name="hari" 
                         class="select select-bordered w-full rounded-lg border-2 px-4 @error('hari') border-red-400 @enderror">
                         <option value="">Pilih Hari</option>
-                        @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'] as $hari)
+                        @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'] as $hari)
                             <option value="{{ $hari }}" {{ old('hari') == $hari ? 'selected' : '' }}>
                                 {{ $hari }}
                             </option>
@@ -55,7 +55,7 @@
                 </div>
 
                 {{-- Jam Selesai --}}
-                <div class="form-control mb-8">
+                <div class="form-control mb-5">
                     <label class="label pb-1">
                         <span class="text-sm font-semibold text-gray-700">
                             Jam Selesai <span class="text-red-500">*</span>
@@ -65,6 +65,24 @@
                         value="{{ old('jam_selesai') }}"
                         class="input input-bordered w-full rounded-lg border-2 px-4 @error('jam_selesai') border-red-400 @enderror">
                     @error('jam_selesai')
+                        <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                {{-- PERBAIKAN: Input Dropdown Status (Wajib Ada untuk Validasi Controller) --}}
+                <div class="form-control mb-8">
+                    <label class="label pb-1">
+                        <span class="text-sm font-semibold text-gray-700">
+                            Status Jadwal <span class="text-red-500">*</span>
+                        </span>
+                    </label>
+                    <select name="status" 
+                        class="select select-bordered w-full rounded-lg border-2 px-4 @error('status') border-red-400 @enderror">
+                        <option value="">Pilih Status</option>
+                        <option value="aktif" {{ old('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                        <option value="tidak_aktif" {{ old('status') == 'tidak_aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+                    </select>
+                    @error('status')
                         <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
                     @enderror
                 </div>

@@ -5,19 +5,25 @@ namespace App\Http\Controllers\Dokter;
 use App\Http\Controllers\Controller;
 use App\Models\Periksa;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class RiwayatPasienController extends Controller
 {
     public function index()
     {
-        $riwayatPasien = Periksa::whereHas('daftarPoli.jadwalPeriksa', function ($query) {
-                $query->where('id_dokter', Auth::id());
+        $dokter = auth()->user()->dokter;
+
+        if (!$dokter) {
+            return redirect()->route('dokter.dashboard')
+                ->with('error', 'Data dokter tidak ditemukan. Hubungi administrator.');
+        }
+
+        $riwayatPasien = Periksa::whereHas('daftarPoli.jadwalPeriksa', function ($query) use ($dokter) {
+                $query->where('dokter_id', $dokter->id);
             })
             ->with([
                 'daftarPoli.pasien',
-                'daftarPoli.jadwalPeriksa.dokter',
-                'detailPeriksas.obat'
+                'daftarPoli.jadwalPeriksa',
+                'detailPeriksas.obat',
             ])
             ->orderBy('tgl_periksa', 'desc')
             ->get();
@@ -27,13 +33,20 @@ class RiwayatPasienController extends Controller
 
     public function show($id)
     {
-        $periksa = Periksa::whereHas('daftarPoli.jadwalPeriksa', function ($query) {
-                $query->where('id_dokter', Auth::id());
+        $dokter = auth()->user()->dokter;
+
+        if (!$dokter) {
+            return redirect()->route('dokter.dashboard')
+                ->with('error', 'Data dokter tidak ditemukan. Hubungi administrator.');
+        }
+
+        $periksa = Periksa::whereHas('daftarPoli.jadwalPeriksa', function ($query) use ($dokter) {
+                $query->where('dokter_id', $dokter->id);
             })
             ->with([
                 'daftarPoli.pasien',
-                'daftarPoli.jadwalPeriksa.dokter.poli',
-                'detailPeriksas.obat'
+                'daftarPoli.jadwalPeriksa',
+                'detailPeriksas.obat',
             ])
             ->findOrFail($id);
 

@@ -9,6 +9,17 @@
             <p style="color: #64748b; font-size: 13px;">Buat akun baru</p>
         </div>
 
+        {{-- Tampilkan error validasi --}}
+        @if ($errors->any())
+            <div style="background: #fef2f2; border: 1px solid #fca5a5; border-radius: 10px; padding: 12px 16px; margin-bottom: 16px;">
+                <ul style="margin: 0; padding-left: 16px; color: #dc2626; font-size: 13px;">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form action="{{ route('register') }}" method="POST">
             @csrf
             
@@ -16,7 +27,7 @@
                 <label style="display: block; font-size: 13px; font-weight: 600; color: #1e2d6b; margin-bottom: 5px;">Nama Lengkap</label>
                 <div style="position: relative;">
                     <i class="fas fa-user" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
-                    <input type="text" name="nama" placeholder="Masukkan nama lengkap..." required 
+                    <input type="text" name="nama" value="{{ old('nama') }}" placeholder="Masukkan nama lengkap..." required 
                         style="width: 100%; padding: 10px 16px 10px 45px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none;">
                 </div>
             </div>
@@ -25,7 +36,7 @@
                 <label style="display: block; font-size: 13px; font-weight: 600; color: #1e2d6b; margin-bottom: 5px;">Email</label>
                 <div style="position: relative;">
                     <i class="fas fa-envelope" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
-                    <input type="email" name="email" placeholder="Masukkan email..." required 
+                    <input type="email" name="email" value="{{ old('email') }}" placeholder="Masukkan email..." required 
                         style="width: 100%; padding: 10px 16px 10px 45px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none;">
                 </div>
             </div>
@@ -34,7 +45,7 @@
                 <label style="display: block; font-size: 13px; font-weight: 600; color: #1e2d6b; margin-bottom: 5px;">Alamat</label>
                 <div style="position: relative;">
                     <i class="fas fa-map-marker-alt" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
-                    <input type="text" name="alamat" placeholder="Masukkan alamat..." required 
+                    <input type="text" name="alamat" value="{{ old('alamat') }}" placeholder="Masukkan alamat..." required 
                         style="width: 100%; padding: 10px 16px 10px 45px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none;">
                 </div>
             </div>
@@ -44,7 +55,7 @@
                     <label style="display: block; font-size: 13px; font-weight: 600; color: #1e2d6b; margin-bottom: 5px;">No. HP</label>
                     <div style="position: relative;">
                         <i class="fas fa-phone" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
-                        <input type="text" name="no_hp" placeholder="No. HP..." required 
+                        <input type="text" name="no_hp" value="{{ old('no_hp') }}" placeholder="No. HP..." required 
                             style="width: 100%; padding: 10px 16px 10px 45px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none;">
                     </div>
                 </div>
@@ -52,17 +63,28 @@
                     <label style="display: block; font-size: 13px; font-weight: 600; color: #1e2d6b; margin-bottom: 5px;">No. KTP</label>
                     <div style="position: relative;">
                         <i class="fas fa-id-card" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
-                        <input type="text" name="no_ktp" placeholder="No. KTP..." required 
+                        <input type="text" name="no_ktp" value="{{ old('no_ktp') }}" placeholder="No. KTP..." required 
                             style="width: 100%; padding: 10px 16px 10px 45px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none;">
                     </div>
                 </div>
             </div>
 
+            {{-- Password --}}
             <div style="margin-bottom: 15px;">
                 <label style="display: block; font-size: 13px; font-weight: 600; color: #1e2d6b; margin-bottom: 5px;">Password</label>
                 <div style="position: relative;">
                     <i class="fas fa-lock" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
-                    <input type="password" name="password" placeholder="Password..." required
+                    <input type="password" name="password" placeholder="Minimal 6 karakter..." required
+                        style="width: 100%; padding: 10px 16px 10px 45px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none;">
+                </div>
+            </div>
+
+            {{-- FIX: Tambah field konfirmasi password --}}
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-size: 13px; font-weight: 600; color: #1e2d6b; margin-bottom: 5px;">Konfirmasi Password</label>
+                <div style="position: relative;">
+                    <i class="fas fa-lock" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+                    <input type="password" name="password_confirmation" placeholder="Ulangi password..." required
                         style="width: 100%; padding: 10px 16px 10px 45px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none;">
                 </div>
             </div>

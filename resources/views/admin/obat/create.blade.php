@@ -45,18 +45,35 @@
 
             </div>
 
-            {{-- Harga --}}
-            <div style="margin-bottom:25px;">
-                <label style="font-weight:600;">Harga *</label>
-                <div style="display:flex; align-items:center; border:1px solid #e5e7eb; border-radius:8px; padding:8px; margin-top:5px;">
-                    <span style="margin-right:5px;">Rp</span>
-                    <input type="number" name="harga" value="{{ old('harga') }}" min="0"
-                        placeholder="0"
-                        style="border:none; outline:none; width:100%;" required>
+            {{-- Harga + Stok --}}
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:25px;">
+                
+                {{-- Harga --}}
+                <div>
+                    <label style="font-weight:600;">Harga *</label>
+                    <div style="display:flex; align-items:center; border:1px solid #e5e7eb; border-radius:8px; padding:8px; margin-top:5px;">
+                        <span style="margin-right:5px;">Rp</span>
+                        <input type="number" name="harga" value="{{ old('harga') }}" min="0"
+                            placeholder="0"
+                            style="border:none; outline:none; width:100%;" required>
+                    </div>
+                    @error('harga')
+                        <small style="color:red;">{{ $message }}</small>
+                    @enderror
                 </div>
-                @error('harga')
-                    <small style="color:red;">{{ $message }}</small>
-                @enderror
+
+                {{-- Stok --}}
+                <div>
+                    <label style="font-weight:600;">Stok Awal *</label>
+                    <input type="number" name="stok" value="{{ old('stok', 0) }}" min="0"
+                        placeholder="0"
+                        style="width:100%; padding:10px; border:1px solid #e5e7eb; border-radius:8px; margin-top:5px;"
+                        required>
+                    @error('stok')
+                        <small style="color:red;">{{ $message }}</small>
+                    @enderror
+                </div>
+
             </div>
 
             {{-- Button --}}

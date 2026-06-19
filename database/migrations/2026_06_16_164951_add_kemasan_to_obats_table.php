@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('id_poli')->nullable()->after('role')->constrained('poli')->nullOnDelete();
+        Schema::table('obats', function (Blueprint $table) {
+            $table->string('kemasan')->nullable()->after('nama_obat');
         });
     }
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['id_poli']);
-            $table->dropColumn('id_poli');
+        Schema::table('obats', function (Blueprint $table) {
+            $table->dropColumn('kemasan');
         });
     }
 };

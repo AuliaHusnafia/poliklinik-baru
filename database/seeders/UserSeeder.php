@@ -3,9 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -19,25 +17,29 @@ class UserSeeder extends Seeder
             [
                 'nama' => 'Admin',
                 'email' => 'admin@gmail.com',
-                'password' => bcrypt('pwadmin'),
+                'password' => 'pwadmin', // Menggunakan teks biasa menghindari double hashing di Laravel Modern
                 'role' => 'admin',
             ],
             [
                 'nama' => 'Dokter',
                 'email' => 'dokter@gmail.com',
-                'password' => Hash::make('dokter'),
+                'password' => 'dokter',
                 'role' => 'dokter',
             ],
             [
                 'nama' => 'Pasien',
                 'email' => 'pasien@gmail.com',
-                'password' => Hash::make('pasien'),
+                'password' => 'pasien',
                 'role' => 'pasien',
             ],
         ];
 
         foreach ($users as $user) {
-            User::create($user);
+            // updateOrCreate mencegah error 'duplicate entry' jika seeder dijalankan ulang
+            User::updateOrCreate(
+                ['email' => $user['email']], 
+                $user
+            );
         }
     }
 }

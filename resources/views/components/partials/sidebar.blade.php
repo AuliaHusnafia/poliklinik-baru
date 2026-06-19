@@ -69,14 +69,14 @@
                 <span>Jadwal Periksa</span>
             </a>
 
-            <a href="{{ route('periksa-pasien.index') }}"
-            class="nav-link-modern {{ request()->routeIs('periksa-pasien.*') ? 'active' : '' }}">
+            <a href="{{ route('dokter.periksa-pasien.index') }}"
+            class="nav-link-modern {{ request()->routeIs('dokter.periksa-pasien.*') ? 'active' : '' }}">
                 <i class="fas fa-notes-medical"></i>
                 <span>Periksa Pasien</span>
             </a>
 
-            <a href="{{ route('riwayat-pasien.index') }}"
-            class="nav-link-modern {{ request()->routeIs('riwayat-pasien.*') ? 'active' : '' }}">
+            <a href="{{ route('dokter.riwayat-pasien.index') }}"
+            class="nav-link-modern {{ request()->routeIs('dokter.riwayat-pasien.*') ? 'active' : '' }}">
                 <i class="fas fa-clock-rotate-left"></i>
                 <span>Riwayat Pasien</span>
             </a>

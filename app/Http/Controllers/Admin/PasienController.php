@@ -50,7 +50,7 @@ class PasienController extends Controller
 
     public function edit(User $pasien)
     {
-        return view('pasien.edit', compact('pasien'));
+        return view('admin.pasien.edit', compact('pasien'));
     }
 
     public function update(Request $request, User $pasien)

@@ -9,25 +9,32 @@ class DaftarPoli extends Model
     protected $table = 'daftar_poli';
 
     protected $fillable = [
-        'id_jadwal',
-        'id_pasien',
+        'pasien_id',
+        'dokter_id',
+        'jadwal_periksa_id',
         'keluhan',
-        'no_antrian'
+        'status',
+        'no_antrian',
     ];
 
     public function pasien()
     {
-        return $this->belongsTo(User::class, 'id_pasien');
+        return $this->belongsTo(User::class, 'pasien_id');
+    }
+
+    public function dokter()
+    {
+        return $this->belongsTo(Dokter::class, 'dokter_id');
     }
 
     public function jadwalPeriksa()
     {
-        return $this->belongsTo(JadwalPeriksa::class, 'id_jadwal');
+        return $this->belongsTo(JadwalPeriksa::class, 'jadwal_periksa_id');
     }
 
+    // DIPERBAIKI: id_daftar_poli (bukan daftar_poli_id) — sesuai model & migration Periksa
     public function periksa()
-{
-    return $this->hasOne(Periksa::class, 'id_daftar_poli');
+    {
+        return $this->hasOne(Periksa::class, 'id_daftar_poli');
+    }
 }
-}
-

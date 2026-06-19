@@ -12,13 +12,15 @@ return new class extends Migration
     public function up(): void
 {
     Schema::create('jadwal_periksa', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('id_dokter')->constrained('users')->cascadeOnDelete();
-        $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']);
-        $table->time('jam_mulai');
-        $table->time('jam_selesai');
-        $table->timestamps();
-    });
+    $table->id();
+    // Pastikan baris ini ada dan tidak salah ketik:
+    $table->foreignId('dokter_id')->constrained('dokter')->onDelete('cascade'); 
+    $table->string('hari');
+    $table->time('jam_mulai');
+    $table->time('jam_selesai');
+    $table->enum('status', ['aktif', 'tidak_aktif']);
+    $table->timestamps();
+});
 }
     /**
      * Reverse the migrations.
