@@ -18,9 +18,9 @@ class PoliController extends Controller
 
         $polis = Poli::all();
 
-        // Ambil semua jadwal yang dokternya memiliki id_poli (tidak null)
-        $jadwals = JadwalPeriksa::with(['dokter', 'dokter.poli'])
-        ->whereHas('dokter', function ($query) {
+        // Ambil semua jadwal yang dokternya memiliki id_poli (tidak null) melalui relasi user
+        $jadwals = JadwalPeriksa::with(['dokter.user'])
+        ->whereHas('dokter.user', function ($query) {
             $query->whereNotNull('id_poli');
         })
         ->get();
