@@ -22,7 +22,9 @@ class PeriksaPasienController extends Controller
         }
 
         $daftarPoli = DaftarPoli::with(['pasien', 'jadwalPeriksa'])
-                        ->where('dokter_id', $dokter->id)
+                        ->whereHas('jadwalPeriksa', function ($query) use ($dokter) {
+                            $query->where('dokter_id', $dokter->id);
+                        })
                         ->where('status', 'menunggu')
                         ->get();
 
